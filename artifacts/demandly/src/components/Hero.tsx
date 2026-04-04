@@ -91,7 +91,7 @@ export default function Hero({ onCTA }: { onCTA: (plan?: string) => void }) {
             e.currentTarget.style.opacity = "1";
           }}
         >
-          Get started free
+          Get started
         </button>
 
         <button
