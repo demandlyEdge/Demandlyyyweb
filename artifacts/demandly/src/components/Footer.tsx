@@ -167,7 +167,7 @@ export default function Footer({ onCTA }: { onCTA: () => void }) {
             Set up in 48 hours.
           </p>
           <button
-            onClick={onCTA}
+            onClick={() => document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth" })}
             style={{
               background: "#c8ff57",
               color: "#0a0a0a",

@@ -32,7 +32,7 @@ export default function Navbar({ onCTA }: { onCTA: () => void }) {
         </div>
 
         <button
-          onClick={onCTA}
+          onClick={() => scrollTo("pricing")}
           className="btn-transition cursor-pointer select-none font-medium"
           style={{
             background: "#c8ff57",

@@ -73,7 +73,7 @@ export default function Hero({ onCTA }: { onCTA: () => void }) {
         className="animate-fade-up-3 relative z-10 flex flex-wrap items-center justify-center gap-3"
       >
         <button
-          onClick={onCTA}
+          onClick={() => document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth" })}
           className="btn-transition font-medium rounded-lg cursor-pointer"
           style={{
             fontSize: "15px",
