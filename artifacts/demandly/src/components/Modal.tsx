@@ -180,7 +180,7 @@ export default function Modal({ plan, onClose }: ModalProps) {
               lineHeight: 1.5,
             }}
           >
-            No contracts. Cancel anytime. Setup within 48 hours.
+            Setup within 48 hours.
           </p>
         </div>
       </div>

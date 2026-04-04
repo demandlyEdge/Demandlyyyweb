@@ -337,8 +337,8 @@ export default function Pricing({ onCTA }: { onCTA: (plan: string) => void }) {
             lineHeight: 1.7,
           }}
         >
-          All plans include 48-hour setup. No contracts. Cancel anytime. Replace
-          your receptionist for less than their lunch budget.
+          All plans include 48-hour setup. Replace your receptionist for less
+          than their lunch budget.
         </p>
       </div>
 

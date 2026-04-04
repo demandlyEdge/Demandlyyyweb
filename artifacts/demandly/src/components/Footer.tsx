@@ -164,7 +164,7 @@ export default function Footer() {
               fontFamily: "'DM Sans', sans-serif",
             }}
           >
-            Set up in 48 hours. No contracts. Cancel anytime.
+            Set up in 48 hours.
           </p>
           <button
             onClick={() => scrollTo("pricing")}
