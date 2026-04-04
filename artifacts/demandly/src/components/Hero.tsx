@@ -13,15 +13,16 @@ export default function Hero({ onCTA }: { onCTA: (plan?: string) => void }) {
 
       {/* Badge */}
       <div
-        className="animate-fade-up relative z-10 inline-flex items-center gap-2 mb-8 px-4 py-1.5 rounded-full"
+        className="animate-fade-up relative z-10 inline-flex items-center gap-2 mb-8 rounded-full"
         style={{
           background: "rgba(200,255,87,0.1)",
           border: "0.5px solid rgba(200,255,87,0.25)",
           color: "#c8ff57",
-          fontSize: "12px",
+          fontSize: "13px",
           fontWeight: 500,
           letterSpacing: "0.04em",
           textTransform: "uppercase",
+          padding: "9px 18px",
         }}
       >
         <span className="animate-pulse-dot" style={{ fontSize: "8px" }}>●</span>
