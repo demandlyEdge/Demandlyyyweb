@@ -73,8 +73,10 @@ export default function Hero({ onCTA }: { onCTA: (plan?: string) => void }) {
       >
         <button
           onClick={() => onCTA("Growth")}
-          className="btn-transition font-medium text-base px-7 py-3.5 rounded-lg cursor-pointer"
+          className="btn-transition font-medium rounded-lg cursor-pointer"
           style={{
+            fontSize: "15px",
+            padding: "15px 32px",
             background: "#c8ff57",
             color: "#0a0a0a",
             fontFamily: "'DM Sans', sans-serif",
@@ -93,8 +95,10 @@ export default function Hero({ onCTA }: { onCTA: (plan?: string) => void }) {
 
         <button
           onClick={() => scrollTo("how")}
-          className="btn-transition font-normal text-base px-7 py-3.5 rounded-lg cursor-pointer"
+          className="btn-transition font-normal rounded-lg cursor-pointer"
           style={{
+            fontSize: "15px",
+            padding: "15px 32px",
             background: "transparent",
             color: "#f5f3ee",
             fontFamily: "'DM Sans', sans-serif",
