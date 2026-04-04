@@ -15,17 +15,36 @@ export default function Navbar({ onCTA }: { onCTA: () => void }) {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 nav-glass transition-all duration-300 ${
-        scrolled ? "py-4" : "py-7"
-      }`}
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 50,
+        background: scrolled
+          ? "rgba(10,10,10,0.92)"
+          : "rgba(10,10,10,0.75)",
+        backdropFilter: "blur(24px)",
+        WebkitBackdropFilter: "blur(24px)",
+        borderBottom: scrolled
+          ? "1px solid rgba(200,255,87,0.12)"
+          : "1px solid rgba(255,255,255,0.07)",
+        transition: "all 0.3s ease",
+        padding: scrolled ? "18px 0" : "26px 0",
+      }}
     >
       <div
         style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 48px" }}
         className="flex items-center justify-between"
       >
         <div
-          className="font-syne font-extrabold tracking-tight text-[#f5f3ee] cursor-pointer select-none"
-          style={{ fontSize: "20px", letterSpacing: "-0.03em" }}
+          className="font-syne font-extrabold cursor-pointer select-none"
+          style={{
+            fontSize: "28px",
+            letterSpacing: "-0.04em",
+            color: "#f5f3ee",
+            lineHeight: 1,
+          }}
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         >
           demand<span style={{ color: "#c8ff57" }}>ly</span>
@@ -33,15 +52,17 @@ export default function Navbar({ onCTA }: { onCTA: () => void }) {
 
         <button
           onClick={() => scrollTo("pricing")}
-          className="btn-transition cursor-pointer select-none font-medium"
+          className="btn-transition cursor-pointer select-none"
           style={{
             background: "#c8ff57",
             color: "#0a0a0a",
             fontFamily: "'DM Sans', sans-serif",
-            fontSize: "13px",
-            padding: "10px 22px",
-            borderRadius: "7px",
+            fontWeight: 700,
+            fontSize: "15px",
+            padding: "13px 30px",
+            borderRadius: "9px",
             border: "none",
+            letterSpacing: "-0.01em",
           }}
           onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
           onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
