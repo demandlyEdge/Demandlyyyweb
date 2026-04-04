@@ -47,6 +47,14 @@
     </script>
   </head>
   <body>
+    <!-- Cal.com hidden trigger — script auto-wires click handlers to data-cal-link elements -->
+    <button
+      id="cal-trigger"
+      data-cal-link="demandlycrew/30min"
+      data-cal-config='{"layout":"month_view"}'
+      style="display:none;position:absolute;"
+      aria-hidden="true"
+    ></button>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
