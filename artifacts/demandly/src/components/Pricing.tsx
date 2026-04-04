@@ -104,7 +104,7 @@ interface PkgProps {
   layer1Features: string[];
   layer2Features: string[];
   layer3Features: string[];
-  onCTA: (plan: string) => void;
+  onCTA: () => void;
 }
 
 function PricingCard({
@@ -238,7 +238,7 @@ function PricingCard({
       <div style={{ flex: 1 }} />
 
       <button
-        onClick={() => onCTA(tier)}
+        onClick={onCTA}
         className="btn-transition"
         style={{
           display: "block",
@@ -277,7 +277,7 @@ function PricingCard({
   );
 }
 
-export default function Pricing({ onCTA }: { onCTA: (plan: string) => void }) {
+export default function Pricing({ onCTA }: { onCTA: () => void }) {
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

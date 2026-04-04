@@ -1,36 +1,39 @@
-import { useState } from "react";
 import BgCanvas from "@/components/BgCanvas";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import HowItWorks from "@/components/HowItWorks";
 import Pricing from "@/components/Pricing";
 import Footer from "@/components/Footer";
-import Modal from "@/components/Modal";
+
+declare global {
+  interface Window {
+    Cal?: (...args: unknown[]) => void;
+  }
+}
+
+const CAL_LINK = "demandlycrew/30min";
+
+function openCal() {
+  if (typeof window.Cal === "function") {
+    window.Cal("openModal", { calLink: CAL_LINK });
+  } else {
+    window.open(`https://cal.com/${CAL_LINK}`, "_blank");
+  }
+}
 
 export default function App() {
-  const [modalPlan, setModalPlan] = useState<string | null>(null);
-
-  const openModal = (plan?: string) => {
-    setModalPlan(plan ?? "Growth");
-  };
-
   return (
     <>
       <BgCanvas />
-
       <div style={{ position: "relative", zIndex: 1 }}>
-        <Navbar />
+        <Navbar onCTA={openCal} />
         <main>
-          <Hero onCTA={openModal} />
+          <Hero onCTA={openCal} />
           <HowItWorks />
-          <Pricing onCTA={openModal} />
+          <Pricing onCTA={openCal} />
         </main>
-        <Footer />
+        <Footer onCTA={openCal} />
       </div>
-
-      {modalPlan !== null && (
-        <Modal plan={modalPlan} onClose={() => setModalPlan(null)} />
-      )}
     </>
   );
 }

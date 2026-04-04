@@ -1,4 +1,4 @@
-export default function Footer() {
+export default function Footer({ onCTA }: { onCTA: () => void }) {
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
@@ -167,7 +167,7 @@ export default function Footer() {
             Set up in 48 hours.
           </p>
           <button
-            onClick={() => scrollTo("pricing")}
+            onClick={onCTA}
             style={{
               background: "#c8ff57",
               color: "#0a0a0a",

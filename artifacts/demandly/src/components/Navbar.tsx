@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function Navbar() {
+export default function Navbar({ onCTA }: { onCTA: () => void }) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export default function Navbar() {
         </div>
 
         <button
-          onClick={() => scrollTo("pricing")}
+          onClick={onCTA}
           className="btn-transition cursor-pointer select-none font-medium"
           style={{
             background: "#c8ff57",

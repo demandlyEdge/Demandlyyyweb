@@ -1,4 +1,4 @@
-export default function Hero({ onCTA }: { onCTA: (plan?: string) => void }) {
+export default function Hero({ onCTA }: { onCTA: () => void }) {
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
@@ -73,7 +73,7 @@ export default function Hero({ onCTA }: { onCTA: (plan?: string) => void }) {
         className="animate-fade-up-3 relative z-10 flex flex-wrap items-center justify-center gap-3"
       >
         <button
-          onClick={() => onCTA("Growth")}
+          onClick={onCTA}
           className="btn-transition font-medium rounded-lg cursor-pointer"
           style={{
             fontSize: "15px",
