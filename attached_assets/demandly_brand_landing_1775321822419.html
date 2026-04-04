@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demandly — Your AI Front Desk</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f3ee;
+    --accent: #c8ff57;
+    --accent-dim: #a8d940;
+    --purple: #8b7cf8;
+    --mid: #1a1a1a;
+    --card: #111111;
+    --border: rgba(255,255,255,0.08);
+    --text-muted: #888;
+    --text-secondary: #bbb;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 48px;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 20px; font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--white);
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-cta {
+    background: var(--accent); color: var(--black);
+    font-family: var(--font-body); font-weight: 500; font-size: 13px;
+    padding: 9px 20px; border-radius: 6px; border: none; cursor: pointer;
+    text-decoration: none; transition: opacity 0.2s;
+  }
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 120px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, rgba(200,255,87,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(200,255,87,0.1); border: 0.5px solid rgba(200,255,87,0.25);
+    color: var(--accent); font-size: 12px; font-weight: 500;
+    padding: 6px 14px; border-radius: 20px; margin-bottom: 32px;
+    letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  .hero-badge::before { content: '●'; font-size: 8px; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 8vw, 96px);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin-bottom: 28px;
+    max-width: 900px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+  .hero p {
+    font-size: 18px; font-weight: 300;
+    color: var(--text-secondary);
+    max-width: 520px; margin: 0 auto 44px;
+    line-height: 1.7;
+  }
+  .hero-actions { display: flex; gap: 12px; align-items: center; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--accent); color: var(--black);
+    font-family: var(--font-body); font-weight: 500; font-size: 15px;
+    padding: 14px 28px; border-radius: 8px; border: none; cursor: pointer;
+    text-decoration: none; transition: all 0.2s;
+  }
+  .btn-primary:hover { transform: translateY(-1px); opacity: 0.9; }
+  .btn-ghost {
+    background: transparent; color: var(--white);
+    font-family: var(--font-body); font-weight: 400; font-size: 15px;
+    padding: 14px 28px; border-radius: 8px;
+    border: 0.5px solid var(--border); cursor: pointer;
+    text-decoration: none; transition: border-color 0.2s;
+  }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.25); }
+
+  .hero-stat-row {
+    display: flex; gap: 40px; margin-top: 72px;
+    justify-content: center; flex-wrap: wrap;
+  }
+  .hero-stat { text-align: center; }
+  .hero-stat-num {
+    font-family: var(--font-display); font-size: 32px; font-weight: 700;
+    color: var(--accent); line-height: 1;
+  }
+  .hero-stat-label { font-size: 12px; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  /* SECTION */
+  section { padding: 100px 48px; max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--accent); margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: var(--font-display); font-size: clamp(32px, 5vw, 52px);
+    font-weight: 700; letter-spacing: -0.03em; line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .section-sub { font-size: 17px; color: var(--text-secondary); max-width: 540px; line-height: 1.7; }
+
+  /* HOW IT WORKS */
+  .flow-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 56px; }
+  .flow-card {
+    background: var(--card); border: 0.5px solid var(--border);
+    padding: 32px 28px; position: relative;
+  }
+  .flow-card:first-child { border-radius: 12px 0 0 12px; }
+  .flow-card:last-child { border-radius: 0 12px 12px 0; }
+  .flow-num {
+    font-family: var(--font-display); font-size: 48px; font-weight: 800;
+    color: rgba(200,255,87,0.12); line-height: 1; margin-bottom: 16px;
+  }
+  .flow-title { font-family: var(--font-display); font-size: 18px; font-weight: 600; margin-bottom: 10px; }
+  .flow-desc { font-size: 14px; color: var(--text-muted); line-height: 1.7; }
+  .flow-tag {
+    display: inline-block; margin-top: 16px;
+    font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 3px 9px; border-radius: 4px;
+    background: rgba(200,255,87,0.1); color: var(--accent);
+  }
+
+  /* PRICING */
+  .pricing-section { padding: 100px 48px; max-width: 1100px; margin: 0 auto; }
+  .pricing-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 56px; }
+
+  .pkg {
+    background: var(--card); border: 0.5px solid var(--border);
+    border-radius: 16px; padding: 32px 28px;
+    position: relative; transition: border-color 0.2s;
+  }
+  .pkg:hover { border-color: rgba(255,255,255,0.15); }
+  .pkg.featured {
+    border-color: var(--accent);
+    background: linear-gradient(160deg, #141a0a 0%, #0f0f0f 100%);
+  }
+  .popular-badge {
+    position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+    background: var(--accent); color: var(--black);
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+    padding: 3px 12px; border-radius: 20px; white-space: nowrap;
+  }
+  .pkg-tier {
+    font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--text-muted); margin-bottom: 8px;
+  }
+  .pkg-name {
+    font-family: var(--font-display); font-size: 22px; font-weight: 700;
+    margin-bottom: 6px; letter-spacing: -0.02em;
+  }
+  .pkg-price {
+    font-family: var(--font-display); font-size: 44px; font-weight: 800;
+    letter-spacing: -0.04em; line-height: 1; margin-bottom: 4px;
+    color: var(--white);
+  }
+  .pkg.featured .pkg-price { color: var(--accent); }
+  .pkg-price sub { font-size: 16px; font-weight: 400; color: var(--text-muted); }
+  .pkg-tagline { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
+
+  .pkg-divider { height: 0.5px; background: var(--border); margin: 20px 0; }
+
+  .layer-label {
+    font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
+    margin-bottom: 10px; margin-top: 16px;
+  }
+  .feat-list { list-style: none; }
+  .feat-list li {
+    display: flex; align-items: flex-start; gap: 9px;
+    font-size: 13px; color: var(--text-secondary); padding: 5px 0; line-height: 1.5;
+  }
+  .feat-list li::before {
+    content: '→'; font-size: 11px; margin-top: 1px; flex-shrink: 0;
+  }
+  .feat-list.active li { color: var(--white); }
+  .feat-list.active li::before { color: var(--accent); }
+  .feat-list.inactive li { color: rgba(255,255,255,0.2); text-decoration: line-through; }
+  .feat-list.inactive li::before { color: rgba(255,255,255,0.15); }
+
+  .pkg-btn {
+    display: block; width: 100%; margin-top: 24px;
+    padding: 13px 0; border-radius: 8px; text-align: center;
+    font-family: var(--font-body); font-size: 14px; font-weight: 500;
+    cursor: pointer; transition: all 0.2s; text-decoration: none;
+    border: 0.5px solid var(--border); color: var(--white);
+    background: transparent;
+  }
+  .pkg-btn:hover { border-color: rgba(255,255,255,0.25); }
+  .pkg-btn.accent-btn {
+    background: var(--accent); color: var(--black);
+    border-color: var(--accent);
+  }
+  .pkg-btn.accent-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+  .decoy-note {
+    margin-top: 24px; padding: 16px 20px;
+    background: rgba(200,255,87,0.04); border: 0.5px solid rgba(200,255,87,0.12);
+    border-radius: 10px; font-size: 12px; color: var(--text-muted); line-height: 1.7;
+  }
+  .decoy-note strong { color: var(--accent); font-weight: 500; }
+
+  /* FOOTER */
+  footer {
+    border-top: 0.5px solid var(--border);
+    padding: 40px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .footer-logo {
+    font-family: var(--font-display); font-size: 18px; font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+  .footer-logo span { color: var(--accent); }
+  .footer-copy { font-size: 12px; color: var(--text-muted); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-badge { animation: fadeUp 0.5s ease both; }
+  .hero h1 { animation: fadeUp 0.5s 0.1s ease both; }
+  .hero p { animation: fadeUp 0.5s 0.2s ease both; }
+  .hero-actions { animation: fadeUp 0.5s 0.3s ease both; }
+  .hero-stat-row { animation: fadeUp 0.5s 0.4s ease both; }
+
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .hero { padding: 100px 20px 60px; }
+    section, .pricing-section { padding: 60px 20px; }
+    .flow-grid { grid-template-columns: 1fr; gap: 2px; }
+    .flow-card:first-child { border-radius: 12px 12px 0 0; }
+    .flow-card:last-child { border-radius: 0 0 12px 12px; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    footer { padding: 32px 20px; flex-direction: column; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">demand<span>ly</span></div>
+  <a href="#pricing" class="nav-cta">See pricing</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-badge">AI front desk for local business</div>
+  <h1>Every call is a<br><em>lead waiting</em><br>to close.</h1>
+  <p>Demandly answers calls, texts back missed ones, books appointments — and sends you a WhatsApp when it's done. Your AI receptionist, 24/7.</p>
+  <div class="hero-actions">
+    <a href="#pricing" class="btn-primary">Get started free</a>
+    <a href="#how" class="btn-ghost">See how it works</a>
+  </div>
+  <div class="hero-stat-row">
+    <div class="hero-stat">
+      <div class="hero-stat-num">62%</div>
+      <div class="hero-stat-label">of missed calls never call back</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">60s</div>
+      <div class="hero-stat-label">avg text-back response time</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">$599</div>
+      <div class="hero-stat-label">vs $2,000+ for a real receptionist</div>
+    </div>
+  </div>
+</div>
+
+<section id="how">
+  <div class="section-label">How it works</div>
+  <div class="section-title">Set it up once.<br>It runs forever.</div>
+  <div class="section-sub">No dashboards to manage. No tools to learn. Your AI front desk lives in your phone as WhatsApp alerts.</div>
+
+  <div class="flow-grid">
+    <div class="flow-card">
+      <div class="flow-num">01</div>
+      <div class="flow-title">Customer calls or texts</div>
+      <div class="flow-desc">Any time of day. Whether you're on a job, with a client, or asleep — every inbound contact is captured instantly.</div>
+      <span class="flow-tag">Twilio + OpenClaw</span>
+    </div>
+    <div class="flow-card">
+      <div class="flow-num">02</div>
+      <div class="flow-title">AI handles the conversation</div>
+      <div class="flow-desc">Picks up calls with a human voice, texts back missed ones in 60 seconds, qualifies the lead, and books the appointment — all automatically.</div>
+      <span class="flow-tag">OpenClaw + ElevenLabs</span>
+    </div>
+    <div class="flow-card">
+      <div class="flow-num">03</div>
+      <div class="flow-title">You get a WhatsApp ping</div>
+      <div class="flow-desc">"New lead: Sarah, needs quote for kitchen renovation, booked Friday 2pm." Your calendar fills. You do nothing.</div>
+      <span class="flow-tag">WhatsApp + Cal.com</span>
+    </div>
+  </div>
+</section>
+
+<div class="pricing-section" id="pricing">
+  <div class="section-label">Pricing</div>
+  <div class="section-title">One build.<br>Three packages.</div>
+  <div class="section-sub">All plans include 48-hour setup. No contracts. Cancel anytime. Replace your receptionist for less than their lunch budget.</div>
+
+  <div class="pricing-grid">
+
+    <div class="pkg">
+      <div class="pkg-tier">Starter</div>
+      <div class="pkg-name">Text Rep</div>
+      <div class="pkg-price">$199<sub>/mo</sub></div>
+      <div class="pkg-tagline">Never lose a missed call again</div>
+      <div class="pkg-divider"></div>
+
+      <div class="layer-label" style="color:#EF9F27">Layer 1 — Text automation</div>
+      <ul class="feat-list active">
+        <li>Missed call text-back in 60 seconds</li>
+        <li>AI 3-step follow-up sequence</li>
+        <li>FAQ auto-replies via SMS</li>
+        <li>WhatsApp alerts to owner</li>
+        <li>Lead log in Google Sheets</li>
+      </ul>
+
+      <div class="pkg-divider"></div>
+      <ul class="feat-list inactive">
+        <li>AI voice rep (live calls)</li>
+        <li>Auto calendar booking</li>
+        <li>Daily morning briefing</li>
+        <li>Persistent lead memory</li>
+      </ul>
+
+      <a href="#" class="pkg-btn">Get started</a>
+    </div>
+
+    <div class="pkg featured">
+      <div class="popular-badge">Most popular</div>
+      <div class="pkg-tier">Growth</div>
+      <div class="pkg-name">Text + Voice</div>
+      <div class="pkg-price">$399<sub>/mo</sub></div>
+      <div class="pkg-tagline">AI handles texts AND live calls 24/7</div>
+      <div class="pkg-divider"></div>
+
+      <div class="layer-label" style="color:#c8ff57">Layer 1 — Text automation</div>
+      <ul class="feat-list active">
+        <li>Everything in Starter</li>
+      </ul>
+
+      <div class="layer-label" style="color:#c8ff57">Layer 2 — Voice rep</div>
+      <ul class="feat-list active">
+        <li>AI answers every live call</li>
+        <li>Qualifies leads on the call</li>
+        <li>Human-sounding voice</li>
+        <li>Call summary to WhatsApp</li>
+      </ul>
+
+      <div class="pkg-divider"></div>
+      <ul class="feat-list inactive">
+        <li>Auto calendar booking</li>
+        <li>Daily morning briefing</li>
+      </ul>
+
+      <a href="#" class="pkg-btn accent-btn">Get started</a>
+    </div>
+
+    <div class="pkg">
+      <div class="pkg-tier">Full Stack</div>
+      <div class="pkg-name">AI Front Desk</div>
+      <div class="pkg-price">$599<sub>/mo</sub></div>
+      <div class="pkg-tagline">Complete AI employee, zero effort</div>
+      <div class="pkg-divider"></div>
+
+      <div class="layer-label" style="color:#8b7cf8">Layer 1 + 2 — All above</div>
+      <ul class="feat-list active">
+        <li>Everything in Growth</li>
+      </ul>
+
+      <div class="layer-label" style="color:#8b7cf8">Layer 3 — Full front desk</div>
+      <ul class="feat-list active">
+        <li>Auto books into your calendar</li>
+        <li>Persistent memory per lead</li>
+        <li>Daily WhatsApp briefing</li>
+        <li>Monthly performance report</li>
+        <li>Priority setup + support</li>
+      </ul>
+
+      <a href="#" class="pkg-btn">Get started</a>
+    </div>
+
+  </div>
+
+  <div class="decoy-note">
+    <strong>Why most people pick Growth:</strong> For just $200 more than Starter, you get an AI that actually picks up calls — not just texts. That's the difference between catching 40% of your leads and catching 90%. The math does itself.
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">demand<span>ly</span></div>
+  <div class="footer-copy">Built with OpenClaw + n8n. Your AI front desk, 24/7.</div>
+</footer>
+
+<!-- ============================================================
+  TYPEFORM MODAL
+  HOW TO SET UP:
+  1. Go to typeform.com and create a form asking:
+     - Business name
+     - Your name
+     - Phone number
+     - Which plan are you interested in? (Starter / Growth / Full Stack)
+     - What's your biggest challenge with missed calls?
+  2. In Typeform settings → Share → Embed → get your form ID
+  3. Replace YOUR_TYPEFORM_ID below with your actual form ID
+     e.g. if your link is typeform.com/to/abc123 → use "abc123"
+  4. The Cal.com popup fires automatically on form submit
+============================================================ -->
+
+<div id="tf-overlay" style="
+  display:none; position:fixed; inset:0; z-index:999;
+  background:rgba(0,0,0,0.85); backdrop-filter:blur(8px);
+  align-items:center; justify-content:center;
+">
+  <div style="
+    background:#111; border:0.5px solid rgba(255,255,255,0.12);
+    border-radius:16px; width:min(560px,94vw); position:relative;
+    overflow:hidden;
+  ">
+    <!-- Header -->
+    <div style="padding:20px 24px 0; display:flex; align-items:center; justify-content:space-between;">
+      <div>
+        <div style="font-family:'Syne',sans-serif; font-size:17px; font-weight:700; color:#f5f3ee;">
+          Quick intro — 60 seconds
+        </div>
+        <div style="font-size:12px; color:#888; margin-top:3px;">
+          Then we'll book your setup call
+        </div>
+      </div>
+      <button onclick="closeTypeform()" style="
+        background:rgba(255,255,255,0.06); border:none; color:#aaa;
+        width:32px; height:32px; border-radius:50%; cursor:pointer;
+        font-size:16px; display:flex; align-items:center; justify-content:center;
+      ">✕</button>
+    </div>
+
+    <!-- Typeform embed -->
+    <!-- ⚠️ REPLACE "YOUR_TYPEFORM_ID" with your actual Typeform form ID -->
+    <div id="tf-embed" style="height:460px; margin-top:16px;"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+  CAL.COM POPUP
+  HOW TO SET UP:
+  1. Go to cal.com and create a free account
+  2. Set up an event type e.g. "Demandly Setup Call — 30 min"
+  3. Your booking link will be: cal.com/YOUR-USERNAME/setup-call
+  4. Replace YOUR_CAL_USERNAME below with your Cal.com username
+     e.g. if your link is cal.com/john/setup → use "john/setup"
+  5. That's it — Cal.com handles the rest (timezone, reminders, etc.)
+============================================================ -->
+
+<script src="https://cdn.jsdelivr.net/npm/@calcom/embed-snippet@latest/dist/embed.umd.js"></script>
+
+<script>
+  // ─── CONFIG — swap these two values and you're done ───────────────
+  var TYPEFORM_ID  = 'YOUR_TYPEFORM_ID';   // e.g. 'abc12345'
+  var CAL_USERNAME = 'YOUR_CAL_USERNAME';  // e.g. 'yourname/setup-call'
+  // ──────────────────────────────────────────────────────────────────
+
+  var selectedPlan = 'Growth';
+
+  function openTypeform(plan) {
+    selectedPlan = plan || 'Growth';
+    var overlay = document.getElementById('tf-overlay');
+    overlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+
+    // Load Typeform embed script once
+    if (!window._tfLoaded) {
+      window._tfLoaded = true;
+      var s = document.createElement('script');
+      s.src = 'https://embed.typeform.com/next/embed.js';
+      s.onload = function() { renderTypeform(); };
+      document.head.appendChild(s);
+    } else {
+      renderTypeform();
+    }
+  }
+
+  function renderTypeform() {
+    var container = document.getElementById('tf-embed');
+    container.innerHTML = '';
+
+    // Guard: show instructions if ID not swapped yet
+    if (TYPEFORM_ID === 'YOUR_TYPEFORM_ID') {
+      container.innerHTML = '<div style="padding:40px 24px;text-align:center;color:#888;font-size:14px;line-height:1.8;">'
+        + '<div style="font-size:32px;margin-bottom:12px;">🔧</div>'
+        + '<strong style="color:#f5f3ee;display:block;margin-bottom:8px;">Typeform not connected yet</strong>'
+        + 'Replace <code style="background:#222;padding:2px 6px;border-radius:4px;color:#c8ff57;">YOUR_TYPEFORM_ID</code> '
+        + 'in the HTML with your real Typeform ID.<br><br>'
+        + '<a href="https://typeform.com" target="_blank" style="color:#c8ff57;">Create your form at typeform.com →</a>'
+        + '</div>';
+      return;
+    }
+
+    // Real Typeform embed
+    var div = document.createElement('div');
+    div.setAttribute('data-tf-live', TYPEFORM_ID);
+    div.setAttribute('data-tf-hidden', 'plan=' + selectedPlan);
+    div.style.height = '100%';
+    container.appendChild(div);
+
+    // Listen for form submit → close typeform, fire Cal.com
+    window.addEventListener('message', function handler(e) {
+      if (e.data && e.data.type === 'form-submit') {
+        window.removeEventListener('message', handler);
+        closeTypeform();
+        setTimeout(function() { openCal(); }, 400);
+      }
+    });
+
+    if (window.tf) { window.tf.load(); }
+  }
+
+  function closeTypeform() {
+    document.getElementById('tf-overlay').style.display = 'none';
+    document.body.style.overflow = '';
+    document.getElementById('tf-embed').innerHTML = '';
+  }
+
+  function openCal() {
+    if (CAL_USERNAME === 'YOUR_CAL_USERNAME') {
+      alert('Almost there! Replace YOUR_CAL_USERNAME in the HTML with your Cal.com link (e.g. yourname/setup-call).');
+      return;
+    }
+    // Cal.com popup via their embed snippet
+    Cal('ui', { styles: { branding: { brandColor: '#c8ff57' } }, hideEventTypeDetails: false });
+    Cal('openModal', { calLink: CAL_USERNAME });
+  }
+
+  // Close overlay on backdrop click
+  document.getElementById('tf-overlay').addEventListener('click', function(e) {
+    if (e.target === this) closeTypeform();
+  });
+</script>
+
+<!-- Wire up all "Get started" buttons to open Typeform -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var btns = document.querySelectorAll('.pkg-btn, .btn-primary, .nav-cta');
+    btns.forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        // Detect which plan based on parent card
+        var pkg = btn.closest('.pkg');
+        var plan = 'Growth';
+        if (pkg) {
+          var tier = pkg.querySelector('.pkg-tier');
+          if (tier) plan = tier.textContent.trim();
+        }
+        openTypeform(plan);
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
