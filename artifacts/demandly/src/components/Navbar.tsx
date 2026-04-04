@@ -16,7 +16,7 @@ export default function Navbar({ onCTA }: { onCTA: () => void }) {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 nav-glass transition-all duration-300 ${
-        scrolled ? "py-3" : "py-5"
+        scrolled ? "py-4" : "py-7"
       }`}
     >
       <div
