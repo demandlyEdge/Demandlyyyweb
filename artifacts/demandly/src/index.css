@@ -170,4 +170,13 @@ body {
   .flow-card-last {
     border-radius: 0 0 12px 12px !important;
   }
+  .footer-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+  }
 }
