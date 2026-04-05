@@ -26,7 +26,7 @@ export default function Hero({ onCTA }: { onCTA: () => void }) {
         }}
       >
         <span className="animate-pulse-dot" style={{ fontSize: "8px" }}>●</span>
-        AI front desk for local business
+        AI front desk for businesses and coaches
       </div>
 
       {/* Headline */}
