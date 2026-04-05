@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import HowItWorks from "@/components/HowItWorks";
 import Pricing from "@/components/Pricing";
+import Calculator from "@/components/Calculator";
 import Footer from "@/components/Footer";
 
 declare global {
@@ -52,6 +53,7 @@ export default function App() {
           <Hero onCTA={openCal} />
           <HowItWorks />
           <Pricing onCTA={openCal} />
+          <Calculator onCTA={openCal} />
         </main>
         <Footer onCTA={openCal} />
       </div>

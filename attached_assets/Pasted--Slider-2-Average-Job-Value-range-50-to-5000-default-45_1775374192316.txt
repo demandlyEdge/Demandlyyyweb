@@ -1,0 +1,37 @@
+
+Slider 2: "Average Job Value ($)" — range 50 to 5000, default 450, step 50
+Slider 3: "Close Rate (%)" — range 5 to 100, default 40, step 5
+Slider 4: "Recovery with AI Front Desk (%)" — range 10 to 100, default 70, step 5 — this represents what percentage of missed calls the AI recovers
+Each slider has: label on the left, current value displayed on the right in #c8ff57, a full-width styled range input below with accent-colored thumb and track fill showing progress, and a small muted description below explaining what it means.
+RIGHT COLUMN — Results display:
+One large curved card (border-radius: 16px, background rgba(200,255,87,0.06), border 1px solid rgba(200,255,87,0.2)) containing all calculated outputs.
+At the top: "Estimated Monthly Recovery" label in small uppercase, then the monthly figure in large Syne font 52px weight 800 color #c8ff57.
+Below that: "Additional Revenue / Month" as a muted label.
+Then three stat boxes in a row (Weekly / Monthly / Yearly) each showing the calculated value in Syne font 28px and a label below.
+Then a divider line.
+Then "Without Demandly" section showing what they're currently losing — monthly loss figure in coral/red (#ff6b6b), weekly and yearly loss figures.
+Then a "You recover X%" pill badge in accent green.
+Then at the bottom a CTA button "Start recovering revenue →" that calls openTypeform('Growth').
+CALCULATION LOGIC (JavaScript):
+missedCallsPerWeek = slider1 value
+avgJobValue = slider2 value  
+closeRate = slider3 value / 100
+recoveryRate = slider4 value / 100
+
+weeklyMissedRevenue = missedCallsPerWeek * avgJobValue * closeRate
+monthlyMissedRevenue = weeklyMissedRevenue * 4.33
+
+weeklyRecovered = weeklyMissedRevenue * recoveryRate
+monthlyRecovered = weeklyRecovered * 4.33
+yearlyRecovered = weeklyRecovered * 52
+
+weeklyLost = weeklyMissedRevenue * (1 - recoveryRate)
+monthlyLost = weeklyLost * 4.33
+yearlyLost = weeklyLost * 52
+All currency values formatted with $ and commas (e.g. $10,800). Update all values live on every slider input event with no lag.
+STYLING DETAILS:
+Custom slider CSS — no default browser appearance. Track height 4px, background rgba(255,255,255,0.1), filled portion #c8ff57 using a CSS trick with background: linear-gradient(to right, #c8ff57 VAR%, rgba(255,255,255,0.1) VAR%) updated dynamically via JS. Thumb: 18px circle, background #c8ff57, no border, cursor pointer.
+Section padding matches the rest of the page (100px 48px), max-width 1100px, centered.
+Section heading uses existing .section-label and .section-title classes.
+On mobile (max-width 768px): two columns stack vertically, sliders on top, results below.
+All animations: number changes use a fast CSS transition on opacity (fade out/in 150ms) so value updates feel snappy not jarring.
