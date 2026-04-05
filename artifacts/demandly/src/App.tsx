@@ -1,6 +1,5 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import Lenis from "lenis";
-import { getCalApi } from "@calcom/embed-react";
 import BgCanvas from "@/components/BgCanvas";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
@@ -8,41 +7,13 @@ import HowItWorks from "@/components/HowItWorks";
 import Pricing from "@/components/Pricing";
 import Calculator from "@/components/Calculator";
 import Footer from "@/components/Footer";
-
-const CAL_LINK = "demandlycrew/30min";
-const CAL_NAMESPACE = "30min";
-
-type CalApi = Awaited<ReturnType<typeof getCalApi>>;
-let _cal: CalApi | null = null;
-
-function openCal() {
-  if (_cal) {
-    _cal("modal", {
-      calLink: CAL_LINK,
-      config: { layout: "month_view", theme: "dark" },
-    });
-  } else {
-    window.open(`https://cal.com/${CAL_LINK}`, "_blank");
-  }
-}
+import FormModal from "@/components/FormModal";
 
 export default function App() {
-  const calReady = useRef(false);
+  const [formOpen, setFormOpen] = useState(false);
 
-  useEffect(() => {
-    if (!calReady.current) {
-      calReady.current = true;
-      (async () => {
-        const cal = await getCalApi({ namespace: CAL_NAMESPACE });
-        cal("ui", {
-          theme: "dark",
-          hideEventTypeDetails: false,
-          layout: "month_view",
-        });
-        _cal = cal;
-      })();
-    }
-  }, []);
+  const openForm = () => setFormOpen(true);
+  const closeForm = () => setFormOpen(false);
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -64,15 +35,16 @@ export default function App() {
     <>
       <BgCanvas />
       <div style={{ position: "relative", zIndex: 1 }}>
-        <Navbar onCTA={openCal} />
+        <Navbar onCTA={openForm} />
         <main>
-          <Hero onCTA={openCal} />
+          <Hero onCTA={openForm} />
           <HowItWorks />
-          <Pricing onCTA={openCal} />
-          <Calculator onCTA={openCal} />
+          <Pricing onCTA={openForm} />
+          <Calculator onCTA={openForm} />
         </main>
-        <Footer onCTA={openCal} />
+        <Footer onCTA={openForm} />
       </div>
+      <FormModal open={formOpen} onClose={closeForm} />
     </>
   );
 }
