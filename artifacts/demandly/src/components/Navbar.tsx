@@ -15,6 +15,7 @@ export default function Navbar({ onCTA }: { onCTA: () => void }) {
 
   return (
     <nav
+      aria-label="Main navigation"
       style={{
         position: "fixed",
         top: 0,
@@ -37,18 +38,20 @@ export default function Navbar({ onCTA }: { onCTA: () => void }) {
         style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 48px" }}
         className="flex items-center justify-between"
       >
-        <div
-          className="font-syne font-extrabold cursor-pointer select-none"
+        <a
+          href="/"
+          className="font-syne font-extrabold"
+          aria-label="Demandly — home"
           style={{
             fontSize: "28px",
             letterSpacing: "-0.04em",
             color: "#f5f3ee",
             lineHeight: 1,
+            textDecoration: "none",
           }}
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         >
           demand<span style={{ color: "#c8ff57" }}>ly</span>
-        </div>
+        </a>
 
         <button
           onClick={() => scrollTo("pricing")}

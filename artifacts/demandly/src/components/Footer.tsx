@@ -26,12 +26,14 @@ export default function Footer({ onCTA }: { onCTA: () => void }) {
       >
         {/* Brand column */}
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          <div
+          <a
+            href="/"
             className="font-syne font-extrabold"
-            style={{ fontSize: "20px", letterSpacing: "-0.03em", color: "#f5f3ee" }}
+            style={{ fontSize: "20px", letterSpacing: "-0.03em", color: "#f5f3ee", textDecoration: "none" }}
+            aria-label="Demandly — home"
           >
             demand<span style={{ color: "#c8ff57" }}>ly</span>
-          </div>
+          </a>
           <p
             style={{
               fontSize: "13px",
@@ -68,7 +70,7 @@ export default function Footer({ onCTA }: { onCTA: () => void }) {
         </div>
 
         {/* Product column */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+        <nav aria-label="Product navigation" style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
           <div
             style={{
               fontSize: "11px",
@@ -83,24 +85,20 @@ export default function Footer({ onCTA }: { onCTA: () => void }) {
             Product
           </div>
           {[
-            { label: "How it works", id: "how" },
-            { label: "Pricing", id: "pricing" },
-            { label: "Starter plan", id: "pricing" },
-            { label: "Growth plan", id: "pricing" },
-            { label: "AI Front Desk", id: "pricing" },
+            { label: "How it works", href: "#how" },
+            { label: "Pricing", href: "#pricing" },
+            { label: "Starter plan", href: "#pricing" },
+            { label: "Growth plan", href: "#pricing" },
+            { label: "AI Front Desk", href: "#pricing" },
           ].map((item) => (
-            <button
+            <a
               key={item.label}
-              onClick={() => scrollTo(item.id)}
+              href={item.href}
               style={{
-                background: "none",
-                border: "none",
-                textAlign: "left",
-                cursor: "pointer",
                 fontSize: "13px",
                 color: "#666",
                 fontFamily: "'DM Sans', sans-serif",
-                padding: 0,
+                textDecoration: "none",
                 transition: "color 0.2s",
                 width: "fit-content",
               }}
@@ -108,9 +106,9 @@ export default function Footer({ onCTA }: { onCTA: () => void }) {
               onMouseLeave={(e) => (e.currentTarget.style.color = "#666")}
             >
               {item.label}
-            </button>
+            </a>
           ))}
-        </div>
+        </nav>
 
         {/* Built with column */}
         <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>

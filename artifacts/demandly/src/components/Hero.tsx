@@ -5,6 +5,8 @@ export default function Hero({ onCTA }: { onCTA: () => void }) {
 
   return (
     <section
+      id="hero"
+      aria-label="Hero"
       className="relative min-h-screen flex flex-col items-center justify-center text-center overflow-hidden"
       style={{ padding: "120px 24px 80px" }}
     >
