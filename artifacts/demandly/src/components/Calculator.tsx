@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const fmt = (n: number) =>
   "$" + Math.round(n).toLocaleString("en-US");
@@ -80,6 +80,24 @@ function StatBox({ label, value, color = "#f5f3ee" }: StatBoxProps) {
 }
 
 export default function Calculator({ onCTA }: { onCTA: () => void }) {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          section.querySelectorAll(".reveal").forEach((el) => el.classList.add("visible"));
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
   const [missed, setMissed] = useState(15);
   const [jobValue, setJobValue] = useState(450);
   const [closeRate, setCloseRate] = useState(40);
@@ -95,7 +113,7 @@ export default function Calculator({ onCTA }: { onCTA: () => void }) {
   const yearlyLost = weeklyLost * 52;
 
   return (
-    <section style={{ padding: "100px 48px" }}>
+    <section ref={sectionRef} style={{ padding: "100px 48px" }}>
       <style>{`
         input[type=range]::-webkit-slider-thumb {
           -webkit-appearance: none;
