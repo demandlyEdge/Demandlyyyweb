@@ -8,53 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-    <script>
-      (function (C, A, L) {
-        let p = function (a, ar) { a.q.push(ar); };
-        let d = C.document;
-        C.Cal = C.Cal || function () {
-          let cal = C.Cal;
-          let ar = arguments;
-          if (!cal.loaded) {
-            cal.ns = {};
-            cal.q = cal.q || [];
-            d.head.appendChild(d.createElement("script")).src = A;
-            cal.loaded = true;
-          }
-          if (ar[0] === L) {
-            const api = function () { p(api, arguments); };
-            const namespace = ar[1];
-            api.q = api.q || [];
-            if (typeof namespace === "string") {
-              cal.ns[namespace] = cal.ns[namespace] || api;
-              p(cal.ns[namespace], ar);
-              p(cal, ["-", namespace, ar]);
-            } else {
-              p(cal, ar);
-            }
-            return;
-          }
-          p(cal, ar);
-        };
-      })(window, "https://app.cal.com/embed/embed.js", "init");
-      Cal("init", { origin: "https://cal.com" });
-      Cal("ui", {
-        theme: "dark",
-        styles: { branding: { brandColor: "#c8ff57" } },
-        hideEventTypeDetails: false,
-        layout: "month_view"
-      });
-    </script>
   </head>
   <body>
-    <!-- Cal.com hidden trigger — script auto-wires click handlers to data-cal-link elements -->
-    <button
-      id="cal-trigger"
-      data-cal-link="demandlycrew/30min"
-      data-cal-config='{"layout":"month_view"}'
-      style="display:none;position:absolute;"
-      aria-hidden="true"
-    ></button>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
