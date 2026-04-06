@@ -4,75 +4,67 @@ import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
-const port = process.env.PORT || 3000;
+// ✅ Safe env handling (works everywhere)
+const port = Number(process.env.PORT) || 3000;
+const basePath = process.env.BASE_PATH || "/";
 
-if (!rawPort) {
-  throw new Error(
-    "PORT environment variable is required but was not provided.",
-  );
-}
+export default defineConfig(async () => {
+  const isReplit =
+    process.env.REPL_ID !== undefined &&
+    process.env.NODE_ENV !== "production";
 
-const port = Number(rawPort);
+  return {
+    base: basePath,
 
-if (Number.isNaN(port) || port <= 0) {
-  throw new Error(`Invalid PORT value: "${rawPort}"`);
-}
+    plugins: [
+      react(),
+      tailwindcss(),
+      runtimeErrorOverlay(),
 
-const basePath = process.env.BASE_PATH;
-
-if (!basePath) {
-  throw new Error(
-    "BASE_PATH environment variable is required but was not provided.",
-  );
-}
-
-export default defineConfig({
-  base: basePath,
-  plugins: [
-    react(),
-    tailwindcss(),
-    runtimeErrorOverlay(),
-    ...(process.env.NODE_ENV !== "production" &&
-    process.env.REPL_ID !== undefined
-      ? [
-          await import("@replit/vite-plugin-cartographer").then((m) =>
-            m.cartographer({
+      // ✅ Only load Replit-specific plugins in dev
+      ...(isReplit
+        ? [
+            (await import("@replit/vite-plugin-cartographer")).cartographer({
               root: path.resolve(import.meta.dirname, ".."),
             }),
-          ),
-          await import("@replit/vite-plugin-dev-banner").then((m) =>
-            m.devBanner(),
-          ),
-        ]
-      : []),
-  ],
-  optimizeDeps: {
-    include: ["@calcom/embed-react"],
-  },
-  resolve: {
-    alias: {
-      "@": path.resolve(import.meta.dirname, "src"),
-      "@assets": path.resolve(import.meta.dirname, "..", "..", "attached_assets"),
+            (await import("@replit/vite-plugin-dev-banner")).devBanner(),
+          ]
+        : []),
+    ],
+
+    optimizeDeps: {
+      include: ["@calcom/embed-react"],
     },
-    dedupe: ["react", "react-dom"],
-  },
-  root: path.resolve(import.meta.dirname),
-  build: {
-    outDir: path.resolve(import.meta.dirname, "dist/public"),
-    emptyOutDir: true,
-  },
-  server: {
-    port,
-    host: "0.0.0.0",
-    allowedHosts: true,
-    fs: {
-      strict: true,
-      deny: ["**/.*"],
+
+    resolve: {
+      alias: {
+        "@": path.resolve(import.meta.dirname, "src"),
+        "@assets": path.resolve(
+          import.meta.dirname,
+          "..",
+          "..",
+          "attached_assets",
+        ),
+      },
+      dedupe: ["react", "react-dom"],
     },
-  },
-  preview: {
-    port,
-    host: "0.0.0.0",
-    allowedHosts: true,
-  },
+
+    root: path.resolve(import.meta.dirname),
+
+    build: {
+      outDir: path.resolve(import.meta.dirname, "dist/public"),
+      emptyOutDir: true,
+    },
+
+    // ✅ Dev server only (ignored by Vercel)
+    server: {
+      port,
+      host: "0.0.0.0",
+    },
+
+    preview: {
+      port,
+      host: "0.0.0.0",
+    },
+  };
 });
