@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import Lenis from "lenis";
-import BgCanvas from "@/components/BgCanvas";
-import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
-import HowItWorks from "@/components/HowItWorks";
-import Pricing from "@/components/Pricing";
-import Calculator from "@/components/Calculator";
-import Footer from "@/components/Footer";
-import FormModal from "@/components/FormModal";
+import BgCanvas from "./components/BgCanvas";
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+import HowItWorks from "./components/HowItWorks";
+import Pricing from "./components/Pricing";
+import Calculator from "./components/Calculator";
+import Footer from "./components/Footer";
+import FormModal from "./components/FormModal";
 
 export default function App() {
   const [formOpen, setFormOpen] = useState(false);
